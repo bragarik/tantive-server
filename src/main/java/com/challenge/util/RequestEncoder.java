@@ -9,31 +9,50 @@ import org.apache.mina.filter.codec.ProtocolEncoder;
 import org.apache.mina.filter.codec.ProtocolEncoderAdapter;
 import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 
-import com.challenge.entitys.Protocol;
+import com.challenge.entitys.MessageEntity;
 
+/**
+ * 
+ * @author Ricardo Braga
+ *
+ */
 public class RequestEncoder extends ProtocolEncoderAdapter implements ProtocolEncoder {
 	
 	@Override
     public void encode(IoSession session, Object message, ProtocolEncoderOutput out) throws Exception {
 		
-		Protocol protocol = (Protocol) message;
+		MessageEntity protocol = (MessageEntity) message;
 		
 		List<Byte> list = new ArrayList<>();
-		list.add((byte) Protocol.REQUEST_INT);
+		list.add((byte) MessageEntity.REQUEST_INT);
 		list.add(protocol.getBytes());
 		list.add(protocol.getFrame());
 		for (Byte bytes : protocol.getData()) {
 			list.add(bytes);
 		}
 		list.add(protocol.getCrc());
-		list.add((byte) Protocol.REQUEST_END);
+		list.add((byte) MessageEntity.REQUEST_END);
 		
 		IoBuffer ioBuffer = IoBuffer.allocate(list.size(), false);
 		for (Byte bytes : list) {
 			ioBuffer.put(bytes);
 		}
 		
-		//flip  or there will be nothing to send
+//	case DATE_TIME:
+//		DateTimeEntity dateTimeEntity = new DateTimeEntity();
+//		
+//		dateTimeEntity.setDay(messageEntity.getData()[k++]);
+//		dateTimeEntity.setMonth(messageEntity.getData()[k++]);
+//		dateTimeEntity.setYear(messageEntity.getData()[k++]);
+//		dateTimeEntity.setHour(messageEntity.getData()[k++]);
+//		dateTimeEntity.setMinute(messageEntity.getData()[k++]);
+//		dateTimeEntity.setSecond(messageEntity.getData()[k++]);
+//		
+//		protocolEntity.setDateTimeEntity(dateTimeEntity);
+//		break;
+//	}
+		
+		//flip or there will be nothing to send
         ioBuffer.flip();   
         out.write(ioBuffer);
         

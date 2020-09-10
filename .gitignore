@@ -1,4 +1,4 @@
 /logging.log
-/.classpath
 /.settings
 /localStorage.mv.db
+/localStorage.trace.db

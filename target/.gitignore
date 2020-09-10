@@ -1,6 +1,4 @@
-/maven-archiver/
-/maven-status/
-/surefire-reports/
-/tantive-serv-0.0.1-SNAPSHOT.jar
 /classes/
 /test-classes/
+/maven-archiver/
+/surefire-reports/

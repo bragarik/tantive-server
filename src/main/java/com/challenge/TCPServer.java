@@ -6,8 +6,10 @@ import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 
 import org.apache.mina.core.service.IoAcceptor;
+import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.logging.LoggingFilter;
+import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +46,10 @@ public class TCPServer {
 		acceptor.getFilterChain().addLast("logger", new LoggingFilter());
 		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new CustomProtocolCodecFactory(Charset.forName("ASCII"))));
 		acceptor.setHandler(new AppService());
+		
+		SocketSessionConfig socketSessionConfig  = (SocketSessionConfig) acceptor.getSessionConfig();
+		socketSessionConfig.setIdleTime(IdleStatus.BOTH_IDLE, 60);
+		
 		try {
 			acceptor.bind(new InetSocketAddress(PORT));
 		} catch (IOException e) {
