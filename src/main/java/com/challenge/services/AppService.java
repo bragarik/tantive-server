@@ -1,5 +1,6 @@
 package com.challenge.services;
 
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -90,16 +91,30 @@ public class AppService extends IoHandlerAdapter {
 			return null;
 		}
 
+		// Persistence
+		dao.saveProtocol(messageEntity);
+
 		MessageEntity response = new MessageEntity();
 		response.setFrame(Frame.DATE_TIME.getValue());
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyHHmmss"); //TODO: Corrigir
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd;MM;yy;HH;mm;ss");
 
 		// set to your timezone
 		simpleDateFormat.setTimeZone(TimeZone.getTimeZone(messageEntity.getDataString()));
-		response.setData(simpleDateFormat.format(calendar.getTime()).getBytes());
+
+		//
+		String[] dataArray = simpleDateFormat.format(calendar.getTime()).split(";");
+
+		// SimpleDateFormat - 2 bytes masks
+		byte[] byteArray = new byte[dataArray.length * 2];
+		for (int i = 0, j = 0; i < dataArray.length * 2; j++) {
+			byteArray[i++] = (byte) dataArray[j].getBytes(StandardCharsets.US_ASCII)[0];
+			byteArray[i++] = (byte) dataArray[j].getBytes(StandardCharsets.US_ASCII)[1];
+		}
+
+		response.setData(byteArray);
 
 		response.setBytes(MessageEntity.getSizeMessage(response));
 		response.setCrc(CRC8.getValue(response.getCrcData()));

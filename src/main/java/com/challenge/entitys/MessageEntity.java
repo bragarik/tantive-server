@@ -1,5 +1,6 @@
 package com.challenge.entitys;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.slf4j.LoggerFactory;
-
-import com.challenge.TCPServer;
 import com.challenge.enums.Frame;
 
 /**
@@ -125,12 +123,7 @@ public class MessageEntity {
 
 	@Column(name = "data")
 	public String getDataString() {
-		try {
-			return new String(data, "ASCII");
-		} catch (Exception e) {
-			LoggerFactory.getLogger(TCPServer.class).error(e.getMessage(), e);
-			return "";
-		}
+		return new String(data, StandardCharsets.US_ASCII);
 	}
 
 	/**
@@ -180,6 +173,7 @@ public class MessageEntity {
 	/**
 	 * If data is not null<br>
 	 * else <b>return</b> 0
+	 * 
 	 * @param entity
 	 * @return size
 	 */

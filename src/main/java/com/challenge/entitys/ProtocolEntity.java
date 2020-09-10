@@ -11,7 +11,6 @@ public class ProtocolEntity {
 	
 	private UserInfoEntity userInfoEntity;
 	
-	private DateTimeEntity dateTimeEntity;
 
 	public MessageEntity getMessageEntity() {
 		return messageEntity;
@@ -27,14 +26,6 @@ public class ProtocolEntity {
 
 	public void setUserInfoEntity(UserInfoEntity userInfoEntity) {
 		this.userInfoEntity = userInfoEntity;
-	}
-
-	public DateTimeEntity getDateTimeEntity() {
-		return dateTimeEntity;
-	}
-
-	public void setDateTimeEntity(DateTimeEntity dateTimeEntity) {
-		this.dateTimeEntity = dateTimeEntity;
 	}
 
 }

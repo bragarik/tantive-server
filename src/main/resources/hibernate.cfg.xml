@@ -24,6 +24,5 @@
 		<property name="hibernate.dbcp.maxWaitMillis">-1</property>
 		<mapping class="com.challenge.entitys.MessageEntity" />
 		<mapping class="com.challenge.entitys.UserInfoEntity" />
-		<mapping class="com.challenge.entitys.DateTimeEntity" />
 	</session-factory>
 </hibernate-configuration>

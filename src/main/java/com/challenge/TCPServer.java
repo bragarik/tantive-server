@@ -6,7 +6,6 @@ import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 
 import org.apache.mina.core.service.IoAcceptor;
-import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.logging.LoggingFilter;
 import org.apache.mina.transport.socket.SocketSessionConfig;
@@ -40,7 +39,6 @@ public class TCPServer {
 " 		              /\\              \u001B[30m\u001B[47m- Ricardo Braga - \u001B[0m\n\n\n" 
 				);
 		
-		
 		IoAcceptor acceptor = new NioSocketAcceptor();
 		
 		acceptor.getFilterChain().addLast("logger", new LoggingFilter());
@@ -48,7 +46,7 @@ public class TCPServer {
 		acceptor.setHandler(new AppService());
 		
 		SocketSessionConfig socketSessionConfig  = (SocketSessionConfig) acceptor.getSessionConfig();
-		socketSessionConfig.setIdleTime(IdleStatus.BOTH_IDLE, 60);
+		socketSessionConfig.setWriteTimeout(60);
 		
 		try {
 			acceptor.bind(new InetSocketAddress(PORT));

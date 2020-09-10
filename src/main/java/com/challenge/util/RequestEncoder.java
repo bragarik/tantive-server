@@ -17,12 +17,12 @@ import com.challenge.entitys.MessageEntity;
  *
  */
 public class RequestEncoder extends ProtocolEncoderAdapter implements ProtocolEncoder {
-	
+
 	@Override
-    public void encode(IoSession session, Object message, ProtocolEncoderOutput out) throws Exception {
-		
+	public void encode(IoSession session, Object message, ProtocolEncoderOutput out) throws Exception {
+
 		MessageEntity protocol = (MessageEntity) message;
-		
+
 		List<Byte> list = new ArrayList<>();
 		list.add((byte) MessageEntity.REQUEST_INT);
 		list.add(protocol.getBytes());
@@ -32,31 +32,17 @@ public class RequestEncoder extends ProtocolEncoderAdapter implements ProtocolEn
 		}
 		list.add(protocol.getCrc());
 		list.add((byte) MessageEntity.REQUEST_END);
-		
+
 		IoBuffer ioBuffer = IoBuffer.allocate(list.size(), false);
 		for (Byte bytes : list) {
 			ioBuffer.put(bytes);
 		}
-		
-//	case DATE_TIME:
-//		DateTimeEntity dateTimeEntity = new DateTimeEntity();
-//		
-//		dateTimeEntity.setDay(messageEntity.getData()[k++]);
-//		dateTimeEntity.setMonth(messageEntity.getData()[k++]);
-//		dateTimeEntity.setYear(messageEntity.getData()[k++]);
-//		dateTimeEntity.setHour(messageEntity.getData()[k++]);
-//		dateTimeEntity.setMinute(messageEntity.getData()[k++]);
-//		dateTimeEntity.setSecond(messageEntity.getData()[k++]);
-//		
-//		protocolEntity.setDateTimeEntity(dateTimeEntity);
-//		break;
-//	}
-		
-		//flip or there will be nothing to send
-        ioBuffer.flip();   
-        out.write(ioBuffer);
-        
-        //flushes all buffers you wrote
-        out.flush();
-    }
+
+		// flip or there will be nothing to send
+		ioBuffer.flip();
+		out.write(ioBuffer);
+
+		// flushes all buffers you wrote
+		out.flush();
+	}
 }

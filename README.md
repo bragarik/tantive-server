@@ -6,9 +6,9 @@
 ## Descrição
 
 Servidor TCP com persistência e logs de mensagens.
- 1. Mensagem de texto
- 2. Informações de um usuário
- 3. Solicitar data e hora atual
+ 1.  Mensagem de texto
+ 2.  Informações de um usuário
+ 3.  Solicitar data e hora atual
  
 ## Desafio
 
@@ -40,8 +40,8 @@ Digite `$java -jar ./tantive-serv-0.0.1-SNAPSHOT-jar-with-dependencies.jar`
 * [H2database Quickstart - Documentation](https://www.h2database.com/html/quickstart.html)
 
 **Author**
-<p><i><u>Ricardo Braga</u></i> atualmente trabalha no mercado de <b>Equipamentos eletromédicos</b> como <i>desenvolvedor de software embarcados</i>. Ele é Graduado pela <b>FAJ - Faculdade de Jaguariúna</b> (@2012) em <b>Ciência da Computação</b> e atua no mercado corporativo como desenvolvedor desde 2010.
-<p>
+<p><i><u>Ricardo Braga</u></i> atualmente trabalha no mercado de <b>Equipamentos eletromédicos</b> como <i>desenvolvedor de software embarcados</i>. Ele é graduado pela <b>FAJ - Faculdade de Jaguariúna</b> (@2012) em <b>Ciência da Computação</b> e atua no mercado corporativo como desenvolvedor desde 2010.
+</p>
 
 **Fale Comigo o/**
 <li>bragarik@gmail.com</li>
