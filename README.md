@@ -1,14 +1,12 @@
-
-
 # tantive-server
 [![Bitbucket issues](https://img.shields.io/bitbucket/issues-raw/bragarik/tantive-server?style=plastic)](https://bitbucket.org/bragarik/tantive-server/issues/)
 
 ## Descrição
 
 Servidor TCP com persistência e logs de mensagens.
- 1.  Mensagem de texto
- 2.  Informações de um usuário
- 3.  Solicitar data e hora atual
+1. Mensagem de texto
+2. Informações de um usuário
+3. Solicitar data e hora atual
  
 ## Desafio
 

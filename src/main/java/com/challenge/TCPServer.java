@@ -3,7 +3,7 @@ package com.challenge;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
@@ -42,7 +42,7 @@ public class TCPServer {
 		IoAcceptor acceptor = new NioSocketAcceptor();
 		
 		acceptor.getFilterChain().addLast("logger", new LoggingFilter());
-		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new CustomProtocolCodecFactory(Charset.forName("ASCII"))));
+		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new CustomProtocolCodecFactory(StandardCharsets.US_ASCII)));
 		acceptor.setHandler(new AppService());
 		
 		SocketSessionConfig socketSessionConfig  = (SocketSessionConfig) acceptor.getSessionConfig();

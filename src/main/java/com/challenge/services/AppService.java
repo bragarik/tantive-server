@@ -8,6 +8,7 @@ import java.util.TimeZone;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
+import org.slf4j.LoggerFactory;
 
 import com.challenge.dao.GenericDao;
 import com.challenge.entitys.MessageEntity;
@@ -22,15 +23,13 @@ import com.challenge.util.CRC8;
  */
 public class AppService extends IoHandlerAdapter {
 
-	private GenericDao dao = new GenericDao();
-
 	@Override
 	public void messageReceived(IoSession session, Object message) throws Exception {
 		MessageEntity entity = processMessage((ProtocolEntity) message);
 		if (entity != null) {
 			session.write(entity);
-			session.closeOnFlush();
 		}
+		session.closeOnFlush();
 	}
 
 	public MessageEntity processMessage(ProtocolEntity protocol) {
@@ -39,6 +38,8 @@ public class AppService extends IoHandlerAdapter {
 		if (!checkCRC8(messageEntity)) {
 			return null;
 		}
+		
+		System.out.println(messageEntity);
 
 		switch (Frame.valueOf(messageEntity.getFrame())) {
 		case ACK:
@@ -62,7 +63,8 @@ public class AppService extends IoHandlerAdapter {
 		}
 
 		// Persistence
-		dao.saveProtocol(messageEntity);
+//		new Thread(daoSaveRunnable(messageEntity)).start();
+		GenericDao.save(messageEntity);
 
 		// response
 		return ackReponse();
@@ -76,8 +78,9 @@ public class AppService extends IoHandlerAdapter {
 		}
 
 		// Persistence
-		dao.saveProtocol(messageEntity);
-		dao.saveProtocol(protocol.getUserInfoEntity());
+//		new Thread(daoSaveRunnable(messageEntity, protocol.getUserInfoEntity())).start();
+		GenericDao.save(messageEntity);
+		GenericDao.save(protocol.getUserInfoEntity());
 
 		// response
 		return ackReponse();
@@ -92,7 +95,7 @@ public class AppService extends IoHandlerAdapter {
 		}
 
 		// Persistence
-		dao.saveProtocol(messageEntity);
+		GenericDao.save(messageEntity);
 
 		MessageEntity response = new MessageEntity();
 		response.setFrame(Frame.DATE_TIME.getValue());
@@ -127,20 +130,40 @@ public class AppService extends IoHandlerAdapter {
 		MessageEntity write = new MessageEntity();
 
 		write.setBytes((byte) 0x05);
-		write.setFrame((byte) 0xa0);
+		write.setFrame(Frame.ACK.getValue());
 		write.setData(new byte[0]);
-		write.setCrc((byte) 0x28);
+		write.setCrc(CRC8.getValue(write.getCrcData()));
 		return write;
 	}
 
 	/**
 	 * Check CRC8
 	 * 
-	 * @param messageEntity
+	 * @param entity
 	 * @return CRC8 OK or NOK
 	 */
-	private boolean checkCRC8(MessageEntity messageEntity) {
-		return messageEntity.getCrc() == CRC8.getValue(messageEntity.getCrcData());
+	private boolean checkCRC8(MessageEntity entity) {
+		return entity.getCrc() == CRC8.getValue(entity.getCrcData());
+	}
+
+	/**
+	 * 
+	 * @param <E>
+	 * @param entity
+	 * @return
+	 */
+	private static Runnable daoSaveRunnable(Object... entity) {
+		return new Runnable() {
+			public void run() {
+				try {
+					for (Object e : entity) {
+						GenericDao.save(e);
+					}
+				} catch (Exception e) {
+					LoggerFactory.getLogger(GenericDao.class).error(e.getMessage(), e);
+				}
+			}
+		};
 	}
 
 }

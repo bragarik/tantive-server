@@ -2,12 +2,20 @@ package com.challenge.util;
 
 import java.util.List;
 
+/**
+ * 
+ * @author Ricardo Braga
+ *
+ */
 public class CRC8 {
 
 	public static final byte CRC_POLYNOM = 0x07;
 
 	public static final byte CRC_INITIAL = 0x00;
 
+	/**
+	 * static class
+	 */
 	private CRC8() {
 	}
 
@@ -26,6 +34,11 @@ public class CRC8 {
 		return crc;
 	}
 
+	/**
+	 * 
+	 * @param buffer
+	 * @return crc
+	 */
 	public static byte getValue(List<Byte> buffer) {
 		return (byte) (update(buffer, 0, buffer.size()) & 0xff);
 	}

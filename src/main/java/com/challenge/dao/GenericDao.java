@@ -13,7 +13,13 @@ import com.challenge.util.HibernateUtil;
  */
 public class GenericDao {
 	
-	public <E> void saveProtocol(E entity) {
+	/**
+	 * static
+	 */
+	private GenericDao() {
+	}
+	
+	public static <E> void save(E entity) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			// start a transaction
@@ -23,7 +29,7 @@ public class GenericDao {
 
 			session.close();
 		} catch (Exception e) {
-			LoggerFactory.getLogger(this.getClass()).error(e.getMessage(), e);
+			LoggerFactory.getLogger(GenericDao.class).error(e.getMessage(), e);
 			if (transaction != null) {
 				transaction.rollback();
 			}
