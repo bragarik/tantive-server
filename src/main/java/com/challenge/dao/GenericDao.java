@@ -19,6 +19,11 @@ public class GenericDao {
 	private GenericDao() {
 	}
 	
+	static {
+		//previne delay inicial da sessão
+		HibernateUtil.getSessionFactory().openSession().close();
+	}
+	
 	public static <E> void save(E entity) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {

@@ -23,12 +23,14 @@ O objetivo deste desafio é desenvolver um servidor TCP para o recebimento de me
 ---
 
 **Instalação**
-`git clone https://bragarik@bitbucket.org/bragarik/tantive-server.git`
+
+Digite `git clone https://bragarik@bitbucket.org/bragarik/tantive-server.git`
 
 **Execução**
-Entre no diretório onde está o arquivo `tantive-server/target/tantive-serv-0.0.1-SNAPSHOT-jar-with-dependencies.jar`
 
-Digite `$java -jar ./tantive-serv-0.0.1-SNAPSHOT-jar-with-dependencies.jar`
+Entre no diretório onde está o arquivo `tantive-server/target/tantive-server-x.x.x-SNAPSHOT-jar-with-dependencies.jar`
+
+Digite `$java -jar ./tantive-server-x.x.x-SNAPSHOT-jar-with-dependencies.jar`
 
 ---
 

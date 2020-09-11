@@ -8,7 +8,6 @@ import java.util.TimeZone;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
-import org.slf4j.LoggerFactory;
 
 import com.challenge.dao.GenericDao;
 import com.challenge.entitys.MessageEntity;
@@ -39,8 +38,7 @@ public class AppService extends IoHandlerAdapter {
 			return null;
 		}
 		
-		System.out.println(messageEntity);
-
+		System.out.println(messageEntity); //TODO: debug
 		switch (Frame.valueOf(messageEntity.getFrame())) {
 		case ACK:
 			return null;
@@ -63,7 +61,6 @@ public class AppService extends IoHandlerAdapter {
 		}
 
 		// Persistence
-//		new Thread(daoSaveRunnable(messageEntity)).start();
 		GenericDao.save(messageEntity);
 
 		// response
@@ -78,7 +75,6 @@ public class AppService extends IoHandlerAdapter {
 		}
 
 		// Persistence
-//		new Thread(daoSaveRunnable(messageEntity, protocol.getUserInfoEntity())).start();
 		GenericDao.save(messageEntity);
 		GenericDao.save(protocol.getUserInfoEntity());
 
@@ -119,7 +115,6 @@ public class AppService extends IoHandlerAdapter {
 
 		response.setData(byteArray);
 
-		response.setBytes(MessageEntity.getSizeMessage(response));
 		response.setCrc(CRC8.getValue(response.getCrcData()));
 
 		// response
@@ -144,26 +139,6 @@ public class AppService extends IoHandlerAdapter {
 	 */
 	private boolean checkCRC8(MessageEntity entity) {
 		return entity.getCrc() == CRC8.getValue(entity.getCrcData());
-	}
-
-	/**
-	 * 
-	 * @param <E>
-	 * @param entity
-	 * @return
-	 */
-	private static Runnable daoSaveRunnable(Object... entity) {
-		return new Runnable() {
-			public void run() {
-				try {
-					for (Object e : entity) {
-						GenericDao.save(e);
-					}
-				} catch (Exception e) {
-					LoggerFactory.getLogger(GenericDao.class).error(e.getMessage(), e);
-				}
-			}
-		};
 	}
 
 }
